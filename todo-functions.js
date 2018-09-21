@@ -13,6 +13,14 @@ const getSavedTodos = function () {
 const saveTodos = function (todos) {
     localStorage.setItem('todos', JSON.stringify(todos))
 }
+const toggleTodo = function (id) {
+    const todo = todos.find(function(todo) {
+        return todo.id === id
+    }) 
+    if (todo !== undefined) {
+        todo.completed = !todo.completed
+      }
+}
 
 
 //remove todos based on id
@@ -60,6 +68,12 @@ const generateTodoDOM = function (todo) {
     divEl.appendChild(removeButton)
     spanEl.textContent = todo.text
 
+    //set up checkbox toggle 
+    checkbox.addEventListener('change', function(e) {
+       toggleTodo(todo.id)
+        saveTodos(todos)
+     renderTodos(todos, filters)
+    })
     //set up remove button 
     removeButton.addEventListener('click', function() {
         removeTodo(todo.id)
